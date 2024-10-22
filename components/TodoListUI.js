@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, View, TextInput, Button, Text, FlatList, Switch } from 'react-native';
+import { TokenContext } from '../Contexte/Context'
+import './todo'
 
 import TodoItem from './TodoItem';
 
@@ -8,8 +10,22 @@ export default function TodoList(props){
     const [count, setCount] = useState(props.data.filter((item)=>item.done).length);
     const [newTodoText, setTodoText] = useState("")
     const [todosFilter, setTodosFilter] = useState('');
+    const [token] = useContext(TokenContext)
 
+
+    // Server interacting functions
+    const addNewTodo = () => {
+        if (newTodoText === '') return
+        createTodo(newTodoText, Math.max(...todos.map(item => item.id)) + 1, token)
+        setTodos([...todos, {id: Math.max(...todos.map(item => item.id)) + 1,
+            content: newTodoText,
+            done: false }])
+        setTodoText("")
+    }
+
+    
     const change = (idTodo, state) => {
+        updateTodo(idTodo, state, token)
         todos.find((item) => item.id === id).done = state
         if (state) {
             setCount(doneCount + 1)
@@ -20,19 +36,21 @@ export default function TodoList(props){
 
     const deleteTodo = (id) => {
         const newTodos = todos.filter((item) => item.id != id)
+        deleteTodo(id, token)
         setTodos(newTodos)
         setCount(newTodos.filter((item) => item.done).length)
     }
 
-    const addNewTodo = () => {
-        if (newTodoText === '') return
-        //createTodo(newTodoText, Math.max(...todos.map(item => item.id)) + 1, )
-        setTodos([...todos, {id: Math.max(...todos.map(item => item.id)) + 1,
-            content: newTodoText,
-            done: false }])
-        setTodoText("")
+    const setDoneState = (value) => {
+        setTodos(todos.map(element => {
+            change(element.id, value)
+            return element
+        }));
+        setCount(value ? todos.length : 0)
     }
 
+
+    // Client side functions
     const filterTodos = () => {
         switch (todosFilter) {
             case 'done':
@@ -42,14 +60,6 @@ export default function TodoList(props){
             default:
                 return todos
     }}
-
-    const setDoneState = (value) => {
-        setTodos(todos.map(element => {
-            element.done = value;
-            return item
-        }));
-        setCount(value ? todos.length : 0)
-    }
 
     return (
         <View>
