@@ -15,15 +15,8 @@ export default function SignUpScreen({ navigation }) {
                     {([username, setUsername]) => {
                         return (
                             <View>
-                                <Text>Entrer username ici </Text>
-                                <TextInput 
-                                  onChangeText={value => setUsername(value)}
-                                />
-                                <Text>Entrer password ici </Text>
-                                <TextInput 
-                                  secureTextEntry={true}
-                                  onChangeText={value => password = value}
-                                />
+                                <TextInput placeholder='Username' onChangeText={value => setUsername(value)}/>
+                                <TextInput placeholder='Password' secureTextEntry={true} onChangeText={value => password = value}/>
                                 <Button
                                     title="Sign Up"
                                     onPress={() => {
