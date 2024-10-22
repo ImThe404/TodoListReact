@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 
-import Item from './item';
+import Item from '../API/item';
 
 export default function TodoListItem (props) {
     return (

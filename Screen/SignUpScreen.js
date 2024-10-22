@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button } from 'react-native';
 
 import { TokenContext, UsernameContext } from '../Contexte/Context';
 
-import { signUp } from '../components/sign';
+import { signUp } from '../components/API/sign';
 
 
 export default function SignUpScreen({ navigation }) {

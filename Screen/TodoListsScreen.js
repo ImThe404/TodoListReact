@@ -2,11 +2,10 @@ import React, { useContext, useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import { UsernameContext, TokenContext } from '../Contexte/Context';
-import { getTodoLists, deleteTodoList }  from '../components/todoListAPI';
+import { getTodoLists, deleteTodoList }  from '../components/API/todoListAPI';
 
-import Input from '../components/input';
-import TodoList from '../components/TodoListUI';
-import TodoListDetails from '../components/TodoListDetails'
+import Input from '../components/API/input';
+import TodoListDetails from '../components/ItemOut/TodoListStack'
 
 export default function TodoListScreen({ navigation }) {
     const [token] = useContext(TokenContext);

@@ -9,7 +9,7 @@ export default function Item (props) {
                 console.log('supp')
                 props.delete()
             }}>
-                <Image source={require('../assets/trash-can-outline.png')} style={{ height: 24, width: 24 }} />
+                <Image source={require('../../assets/trash-can-outline.png')} style={{ height: 24, width: 24 }} />
             </TouchableOpacity>
         </View>
     );

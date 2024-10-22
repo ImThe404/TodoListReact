@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { View } from 'react-native';
 
-import TodoList from '../components/TodoListUI';
-import { getTodos } from "../components/todo"
+import TodoListUi from '../components/ItemIn/TodoListUi';
+import { getTodos } from "../components/API/todo"
 import { TokenContext } from '../Contexte/Context'
 
 export default function TodoListScreen(props) {
@@ -26,7 +26,7 @@ export default function TodoListScreen(props) {
 
     return (
         <View>
-            <TodoList
+            <TodoListUi
                 data={data}
                 listId={props.route.params.id}
             />

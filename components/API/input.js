@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { View, TextInput, Button } from "react-native";
 
-import { UsernameContext, TokenContext } from "../Contexte/Context";
+import { UsernameContext, TokenContext } from "../../Contexte/Context";
 import { createTodoList } from "./todoListAPI";
 
 export default function Input() {

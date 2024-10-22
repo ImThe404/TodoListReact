@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet, View, TextInput, Button, Text, FlatList, Switch } from 'react-native';
-import { TokenContext } from '../Contexte/Context'
+import { TokenContext } from '../../Contexte/Context'
 import { ProgressBar } from './progressBar'
-import { createTodo, updateTodo, deleteTodo} from './todo'
+import { createTodo, updateTodo, deleteTodo} from '../API/todo'
 
 import TodoItem from './TodoItem';
 
-export default function TodoList(props){
+export default function TodoListUi(props){
     const [todos, setTodos] = useState(props.data)
     const [count, setCount] = useState(todos.filter((item)=>item.done).length);
     const [newTodoText, setTodoText] = useState("")

@@ -17,7 +17,7 @@ export default function TodoItem(props) {
             <Switch value={done} onValueChange={(state) => stateChange(props.item.id, state)} />
             <Text style={[styles.text_item, { textDecorationLine: done ? 'line-through' : 'none' }]}>{props.item.content}</Text>
             <TouchableOpacity onPress={() => props.deleteTodo(props.item.id)}>
-                <Image source={require('../assets/trash-can-outline.png')} style={{ height: 24, width: 24 }} />
+                <Image source={require('../../assets/trash-can-outline.png')} style={{ height: 24, width: 24 }} />
             </TouchableOpacity>
         </View>
     )
