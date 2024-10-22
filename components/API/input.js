@@ -4,19 +4,31 @@ import { View, TextInput, Button } from "react-native";
 import { UsernameContext, TokenContext } from "../../Contexte/Context";
 import { createTodoList } from "./todoListAPI";
 
-export default function Input() {
+export default function Input(props) {
     const [name, setName] = useState('')
     const [token] = useContext(TokenContext)
     const [username] = useContext(UsernameContext)
     return (
         <View>
             <TextInput
-                onChangeText={value => setName(value)}
+                placeholder="New list name"
+                onChangeText={setName}
+                value={name}
             />
             <Button
                 title="Créer TodoList"
-                onPress={() => {
-                    createTodoList(username, name, token)
+                onPress={async () => {
+                    try {
+                        const res = await createTodoList(username, name, token);
+                        if (res.id) {
+                            props.refresh(res);
+                            setName("");
+                        } else {
+                            console.error("API response came back incorrect :", res);
+                        }
+                    } catch (error) {
+                        console.error("Error creating todoList :", error);
+                    }
                 }}
             />
         </View>

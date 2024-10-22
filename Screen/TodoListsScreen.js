@@ -24,6 +24,10 @@ export default function TodoListScreen({ navigation }) {
             .catch(err => console.error(err.message));
     };
 
+    function refreshTodoLists(val) {
+        setTodolists([...todoLists, val]);
+    };
+
     return (
         <View >
             <TodoListDetails
@@ -31,7 +35,9 @@ export default function TodoListScreen({ navigation }) {
                 delete={deleteTodoListS}
                 navigation={navigation}
             />
-            <Input/>
+            <Input
+                refresh={refreshTodoLists}
+            />
         </View>
     );
 };
