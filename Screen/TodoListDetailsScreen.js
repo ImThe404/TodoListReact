@@ -1,25 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { View } from 'react-native';
 
 import TodoList from '../components/TodoListUI';
 import { getTodos } from "../components/todo"
-import { TokenContext, UsernameContext } from '../Contexte/Context'
+import { TokenContext } from '../Contexte/Context'
 
 export default function TodoListScreen(props) {
 
     console.log(JSON.stringify(props))
     console.log(props.route.params.id)
 
-    const [data, setData] = useState(null);
+    const [token] = useContext(TokenContext)
+    const [data, setData] = useState([]);
 
      // Créer une fonction asynchrone
+     console.log("avant")
     useEffect (() => {
-        const Todos = async () => {
-            setData( await getTodos(props.route.params.id, TokenContext) )
+        const fetchTodos = async () => {
+            try {
+                const todos = await getTodos(props.route.params.id, token);
+                setData(todos);
+            } catch (error) {
+                console.error("Erreur lors de la récupération des todos : ", error);
+            }
         };
 
-        Todos();
-    }, []);
+        fetchTodos();
+    }, [props.route.params.id, token]);
+    console.log("apres")
 
     return (
         <View>

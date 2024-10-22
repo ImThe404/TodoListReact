@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, View, TextInput, Button, Text, FlatList, Switch } from 'react-native';
 import { TokenContext } from '../Contexte/Context'
 import './todo'
@@ -6,8 +6,16 @@ import './todo'
 import TodoItem from './TodoItem';
 
 export default function TodoList(props){
-    const [todos, setTodos] = useState(props.data)
-    const [count, setCount] = useState(props.data.filter((item)=>item.done).length);
+
+    const [todos, setTodos] = useState([])
+    const [count, setCount] = useState(0);
+
+    useEffect( () => {
+        setTodos(props.data)
+    },[props.data])
+    
+    setCount(todos.filter((item)=>item.done).length);
+
     const [newTodoText, setTodoText] = useState("")
     const [todosFilter, setTodosFilter] = useState('');
     const [token] = useContext(TokenContext)
@@ -28,9 +36,9 @@ export default function TodoList(props){
         updateTodo(idTodo, state, token)
         todos.find((item) => item.id === id).done = state
         if (state) {
-            setCount(doneCount + 1)
+            setCount(count + 1)
         } else {
-            setCount(doneCount - 1)
+            setCount(count - 1)
         }
     }
 
@@ -80,7 +88,7 @@ export default function TodoList(props){
             <Button title='Afficher unDONE' onPress={setTodosFilter('undone')}/>
             <Button title='Tout cocher' onPress={() => setDoneState(true)} />
             <Button title='Tout Décocher' onPress={() => setDoneState(false)} />
-            <Text>{"Done : "}{doneCount}</Text>
+            <Text>{"Done : "}{count}</Text>
         </View>
     )
 }
