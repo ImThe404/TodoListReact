@@ -4,88 +4,73 @@ import { StyleSheet, View, TextInput, Button, Text, FlatList, Switch } from 'rea
 import TodoItem from './TodoItem';
 
 export default function TodoList(props){
-
-    const [count, setCount] = useState(props.data.filter((item)=>item.done).length);
     const [todos, setTodos] = useState(props.data)
-    const [todos2, setTodos2] = useState(props.data)
+    const [count, setCount] = useState(props.data.filter((item)=>item.done).length);
     const [newTodoText, setTodoText] = useState("")
+    const [todosFilter, setTodosFilter] = useState('');
 
     const change = (idTodo, state) => {
-        todos.forEach(element => {
-            if (element.id == idTodo) {
-                element.done = state
-            }
-        });
-        todos2.forEach(element => {
-            if (element.id == idTodo) {
-                element.done = state
-            }
-        });
-        setCount(todos.filter((item)=>item.done).length)
-    }
-    const deleteTodo = (id) => {
-        const newTodos = todos.filter(item => item.id != id)
-        setTodos(newTodos)
-        setTodos2(newTodos)
-        setCount(newTodos.filter(item => item.done).length)
-    }
-    const setNewTodoText = (text) => setTodoText(text)
-    const addNewTodo = () => {
-        if ( newTodoText != "") {
-            setTodos([...todos, {   id: Math.max(...todos.map(item => item.id)) + 1,
-                content: newTodoText,
-                done: false }])
-            setTodos2([...todos, {   id: Math.max(...todos.map(item => item.id)) + 1,
-                content: newTodoText,
-                done: false }])
-            setNewTodoText("")
+        todos.find((item) => item.id === id).done = state
+        if (state) {
+            setCount(doneCount + 1)
+        } else {
+            setCount(doneCount - 1)
         }
     }
-    const showALL = () => {
-        setTodos(todos2)
-    }
-    const showDone = () => {
-        const newTodos = todos2.filter(item => item.done == true)
+
+    const deleteTodo = (id) => {
+        const newTodos = todos.filter((item) => item.id != id)
         setTodos(newTodos)
+        setCount(newTodos.filter((item) => item.done).length)
     }
-    const showUndone = () => {
-        const newTodos = todos2.filter(item => item.done == false)
-        setTodos(newTodos)
+
+    const addNewTodo = () => {
+        if (newTodoText === '') return
+        //createTodo(newTodoText, Math.max(...todos.map(item => item.id)) + 1, )
+        setTodos([...todos, {id: Math.max(...todos.map(item => item.id)) + 1,
+            content: newTodoText,
+            done: false }])
+        setTodoText("")
     }
-    const cocheALL = () => {
-        todos2.forEach(element => {
-            element.done = true;
-            console.log(element)
-        });
-        setCount(todos2.length)
-    }
-    const unCocheALL = () => {
-        todos2.forEach(element => {
-            element.done = false;
-            console.log(element)
-        });
-        setCount(0)
+
+    const filterTodos = () => {
+        switch (todosFilter) {
+            case 'done':
+                return todos.filter(item => item.done)
+            case 'undone':
+                return todos.filter(item => !item.done)
+            default:
+                return todos
+    }}
+
+    const setDoneState = (value) => {
+        setTodos(todos.map(element => {
+            element.done = value;
+            return item
+        }));
+        setCount(value ? todos.length : 0)
     }
 
     return (
         <View>
             <FlatList
                 style={{ paddingLeft: 10 }}
-                data={todos}
+                data={filterTodos()}
                 renderItem={({item}) => <TodoItem item={item} change={change} deleteTodo={deleteTodo}/>} />
             <Text>Nombre d'action fini : {count}</Text>
             <TextInput
-                onChangeText={setNewTodoText}
+                onChangeText={setTodoText}
                 placeholder='TYPE HERE'
                 onSubmitEditing={addNewTodo}
                 value={newTodoText}
             />
             <Button title='Nouveau Todo' onPress={() => addNewTodo()} />
-            <Button title='Afficher Tout' onPress={showALL} />
-            <Button title='Afficher DONE' onPress={showDone} />
-            <Button title='Afficher unDONE' onPress={showUndone} />
-            <Button title='Tout cocher' onPress={cocheALL} />
-            <Button title='Tout Décocher' onPress={unCocheALL} />
+            <Button title='Afficher Tout' onPress={setTodosFilter('')} />
+            <Button title='Afficher DONE' onPress={setTodosFilter('done')} />
+            <Button title='Afficher unDONE' onPress={setTodosFilter('undone')}/>
+            <Button title='Tout cocher' onPress={() => setDoneState(true)} />
+            <Button title='Tout Décocher' onPress={() => setDoneState(false)} />
+            <Text>{"Done : "}{doneCount}</Text>
         </View>
     )
 }
