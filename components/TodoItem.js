@@ -12,8 +12,6 @@ export default function TodoItem(props) {
         props.change(id, state)
     }
 
-
-
     return (
         <View style={styles.content}>
             <Switch value={done} onValueChange={(state) => stateChange(props.item.id, state)} />

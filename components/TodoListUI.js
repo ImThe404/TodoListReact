@@ -1,40 +1,35 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, View, TextInput, Button, Text, FlatList, Switch } from 'react-native';
 import { TokenContext } from '../Contexte/Context'
-import './todo'
+import { ProgressBar } from './progressBar'
+import { createTodo, updateTodo, deleteTodo} from './todo'
 
 import TodoItem from './TodoItem';
 
 export default function TodoList(props){
-
-    const [todos, setTodos] = useState([])
-    const [count, setCount] = useState(0);
-
-    useEffect( () => {
-        setTodos(props.data)
-    },[props.data])
-    
-    setCount(todos.filter((item)=>item.done).length);
-
+    const [todos, setTodos] = useState(props.data)
+    const [count, setCount] = useState(todos.filter((item)=>item.done).length);
     const [newTodoText, setTodoText] = useState("")
     const [todosFilter, setTodosFilter] = useState('');
     const [token] = useContext(TokenContext)
 
-
     // Server interacting functions
+
     const addNewTodo = () => {
         if (newTodoText === '') return
-        createTodo(newTodoText, Math.max(...todos.map(item => item.id)) + 1, token)
-        setTodos([...todos, {id: Math.max(...todos.map(item => item.id)) + 1,
+        console.log(props.listId);
+        createTodo(newTodoText, props.listId, token)
+        setTodos([...todos, {
+            id: Math.max(...todos.map(item => item.id)) + 1,
             content: newTodoText,
-            done: false }])
+            done: false 
+        }])
         setTodoText("")
     }
-
     
     const change = (idTodo, state) => {
         updateTodo(idTodo, state, token)
-        todos.find((item) => item.id === id).done = state
+        todos.find((item) => item.id === idTodo).done = state
         if (state) {
             setCount(count + 1)
         } else {
@@ -42,7 +37,7 @@ export default function TodoList(props){
         }
     }
 
-    const deleteTodo = (id) => {
+    const delTodo = (id) => {
         const newTodos = todos.filter((item) => item.id != id)
         deleteTodo(id, token)
         setTodos(newTodos)
@@ -56,7 +51,6 @@ export default function TodoList(props){
         }));
         setCount(value ? todos.length : 0)
     }
-
 
     // Client side functions
     const filterTodos = () => {
@@ -74,7 +68,7 @@ export default function TodoList(props){
             <FlatList
                 style={{ paddingLeft: 10 }}
                 data={filterTodos()}
-                renderItem={({item}) => <TodoItem item={item} change={change} deleteTodo={deleteTodo}/>} />
+                renderItem={({item}) => <TodoItem item={item} change={change} deleteTodo={delTodo}/>} />
             <Text>Nombre d'action fini : {count}</Text>
             <TextInput
                 onChangeText={setTodoText}
@@ -83,12 +77,11 @@ export default function TodoList(props){
                 value={newTodoText}
             />
             <Button title='Nouveau Todo' onPress={() => addNewTodo()} />
-            <Button title='Afficher Tout' onPress={setTodosFilter('')} />
-            <Button title='Afficher DONE' onPress={setTodosFilter('done')} />
-            <Button title='Afficher unDONE' onPress={setTodosFilter('undone')}/>
+            <Button title='Afficher Tout' onPress={() => setTodosFilter('')} />
+            <Button title='Afficher DONE' onPress={() => setTodosFilter('done')} />
+            <Button title='Afficher unDONE' onPress={() => setTodosFilter('undone')}/>
             <Button title='Tout cocher' onPress={() => setDoneState(true)} />
             <Button title='Tout Décocher' onPress={() => setDoneState(false)} />
-            <Text>{"Done : "}{count}</Text>
         </View>
     )
 }
