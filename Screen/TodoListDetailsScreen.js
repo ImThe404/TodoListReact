@@ -12,13 +12,8 @@ export default function TodoListScreen(props) {
 
     useEffect (() => {
         const fetchTodos = async () => {
-            try {
-                const todos = await getTodos(props.route.params.id, token);
-                console.log(JSON.stringify(data), props.route.params.id)
-                setData(todos);
-            } catch (error) {
-                console.error("Erreur lors de la récupération des todos : ", error);
-            }
+            const todos = await getTodos(props.route.params.id, token);
+            setData(todos);
         };
 
         fetchTodos();

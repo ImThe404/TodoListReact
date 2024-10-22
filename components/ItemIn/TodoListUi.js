@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, View, TextInput, Button, Text, FlatList, Switch } from 'react-native';
 import { TokenContext } from '../../Contexte/Context'
 import { ProgressBar } from './progressBar'
@@ -13,6 +13,11 @@ export default function TodoListUi(props){
     const [todosFilter, setTodosFilter] = useState('');
     const [token] = useContext(TokenContext)
 
+    useEffect(() => {
+        setTodos(props.data)
+        setCount(props.data.filter((item)=>item.done).length)
+    }, [props.data])
+
     // Server interacting functions
 
     const addNewTodo = () => {
@@ -24,6 +29,7 @@ export default function TodoListUi(props){
             content: newTodoText,
             done: false 
         }])
+        console.log(todos)
         setTodoText("")
     }
     
@@ -68,7 +74,7 @@ export default function TodoListUi(props){
             <FlatList
                 style={{ paddingLeft: 10 }}
                 data={filterTodos()}
-                renderItem={({item}) => <TodoItem item={item} change={change} deleteTodo={delTodo}/>} />
+                renderItem={({item}) => <TodoItem item={item} change={change} deleteTodo={delTodo}/>}/>
             <Text>Nombre d'action fini : {count}</Text>
             <TextInput
                 onChangeText={setTodoText}

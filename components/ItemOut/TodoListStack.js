@@ -3,7 +3,7 @@ import { FlatList } from 'react-native';
 
 import TodoListStackItem from './TodoListStackItem';
 
-export default function TodoListDetails (props) {
+export default function TodoListDetails(props) {
     return (
         <FlatList
             data={props.data}

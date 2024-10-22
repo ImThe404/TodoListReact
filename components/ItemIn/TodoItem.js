@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Image, View, Text, StyleSheet, Switch, TouchableOpacity } from 'react-native';
 
 export default function TodoItem(props) {
+    
     const [done, setDone] = useState(props.item.done);
     useEffect(() => {
         setDone(props.item.done)

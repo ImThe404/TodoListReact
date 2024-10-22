@@ -6,7 +6,6 @@ export default function Item (props) {
         <View>
             <Text>{props.title}</Text>
             <TouchableOpacity onPress={() => {
-                console.log('supp')
                 props.delete()
             }}>
                 <Image source={require('../../assets/trash-can-outline.png')} style={{ height: 24, width: 24 }} />

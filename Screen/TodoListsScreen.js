@@ -16,7 +16,7 @@ export default function TodoListScreen({ navigation }) {
         getTodoLists(username, token)
             .then(todolists => setTodolists(todolists))
             .catch(err => console.error(err.message));
-    });
+    }, []);
 
     const deleteTodoListS = (id) => {
         setTodolists(todoLists.filter(todoList => todoList.id !== id));
