@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, View, TextInput, Button, Text, FlatList, Switch } from 'react-native';
 import { TokenContext } from '../../Contexte/Context'
-import { ProgressBar } from './progressBar'
+import ProgressBar from './progressBar';
 import { createTodo, updateTodo, deleteTodo} from '../API/todo'
 
 import TodoItem from './TodoItem';
@@ -19,18 +19,19 @@ export default function TodoListUi(props){
     }, [props.data])
 
     // Server interacting functions
-
-    const addNewTodo = () => {
+    const addNewTodo = async () => {
         if (newTodoText === '') return
-        console.log(props.listId);
-        createTodo(newTodoText, props.listId, token)
-        setTodos([...todos, {
-            id: Math.max(...todos.map(item => item.id)) + 1,
-            content: newTodoText,
-            done: false 
-        }])
-        console.log(todos)
-        setTodoText("")
+        try {
+            const res = await createTodo(newTodoText, props.listId, token);
+            if (res.id) {
+                setTodos([...todos, res]);
+                setTodoText("");
+            } else {
+                console.error("API response came back incorrect :", res);
+            }
+        } catch (error) {
+            console.error("Error creating todo:", error);
+        }
     }
     
     const change = (idTodo, state) => {
@@ -71,6 +72,7 @@ export default function TodoListUi(props){
 
     return (
         <View>
+            <ProgressBar progressVal={((count/todos.length)*100).toFixed(0)}/>
             <FlatList
                 style={{ paddingLeft: 10 }}
                 data={filterTodos()}

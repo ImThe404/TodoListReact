@@ -1,52 +1,67 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {View, Text, StyleSheet, Animated} from 'react-native';
 
-export default function ProgressBar(progressVal) {
+export default function ProgressBar({progressVal}) {
     // Init the anim using ref
     const animateVal = useRef(new Animated.Value(0)).current;
-    // Use a ref to store the progress
-    const progressBarRef = useRef(null);
+    const [displayAnimatedText, setDisplayAnimatedText] = useState('none')
+    const [displayOuterAnimatedText, setDisplayOuterAnimatedText] = useState('block')
 
-    // Calculate progress width based on progress raw val
-    const calculateWidth = (progressVal) => {
-        const totalWidth = progressBarRef.current.offsetWidth;
-        return (progressVal / 100) * totalWidth;
-    };
+    const switchDisplay = () => {
+        if (isNaN(progressVal) ? 0 : progressVal == 0) {
+            setDisplayAnimatedText('none')
+            setDisplayOuterAnimatedText('block')
+        } else {
+            setDisplayAnimatedText('block')
+            setDisplayOuterAnimatedText('none')
+        }
+    }
 
     useEffect(() => {
+        const normalizedProgress = isNaN(progressVal) ? 0 : progressVal;
+        console.log(normalizedProgress)
         Animated.timing(animateVal, {
-            toValue: progressVal,
+            toValue: normalizedProgress,
             duration: 300,
-        })
+            useNativeDriver: false,
+        }).start();
+        switchDisplay();
     }, [progressVal])
 
     return (
         <View style={styles.progressBarContainer}>
-        <Animated.View
-            ref={progressBarRef}
-            style={[styles.progressBar, { width: animateVal.interpolate({ inputRange: [0, 100], outputRange: [0, calculateWidth(progressVal)] }) }]}
-        >
-            <Text style={styles.progressText}>{progressVal}%</Text>
+        <Animated.View 
+            style={
+                [styles.progressBar, { 
+                    width: animateVal.interpolate({ 
+                        inputRange: [0, 100], outputRange: ['0%', '100%'] 
+                    }),
+                }]
+            }>
+            <Text style={[styles.progressText, {display:displayAnimatedText}]}>{isNaN(progressVal) ? 0 : progressVal}%</Text>
         </Animated.View>
+        <Text style={[styles.progressText, {display:displayOuterAnimatedText, left: '10px'}]}>{isNaN(progressVal) ? 0 : progressVal}%</Text>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     progressBarContainer: {
-      backgroundColor: '#f0f0f0',
+      backgroundColor: 'gray',
       borderRadius: 10,
       height: 20,
       overflow: 'hidden',
     },
     progressBar: {
-      backgroundColor: 'blue',
+      backgroundColor: '#2196f3',
       height: '100%',
       justifyContent: 'center',
       alignItems: 'center',
     },
     progressText: {
-      color: 'white',
+      position: 'absolute',
+      align: 'center',
+      color: 'black',
       fontSize: 12,
     },
 })
