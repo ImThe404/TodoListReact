@@ -1,8 +1,8 @@
-import React, { useState, setError, useForm } from 'react'
-import { View, Text, TextInput, Button } from 'react-native'
+import React from 'react'
+import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 
+import styles from '../styles';
 import { TokenContext, UsernameContext } from '../Contexte/Context'
-
 import { signIn } from '../components/API/sign'
 
 export default function SignInScreen () {
@@ -14,10 +14,10 @@ export default function SignInScreen () {
         {([token, setToken]) => (
           <UsernameContext.Consumer>
             {([username, setUsername]) => {
-              return <View>
-                <TextInput placeholder='Username' onChangeText={value => setUsername(value)}/>
-                <TextInput placeholder='Password' secureTextEntry={true} onChangeText={value => password = value}/>
-                <Button
+              return <View style={styles.container}>
+                <TextInput style={styles.input} placeholder='Username' onChangeText={value => setUsername(value)}/>
+                <TextInput style={styles.input} placeholder='Password' secureTextEntry={true} onChangeText={value => password = value}/>
+                <TouchableOpacity style={styles.button}
                   title="Sign In"
                   onPress={() => {
                     signIn(username, password)
@@ -30,7 +30,9 @@ export default function SignInScreen () {
                       })
                     }
                   }
-                />
+                >
+                  <Text style={styles.buttonText}>Sign In</Text>
+                </TouchableOpacity>
               </View>
             }}
           </UsernameContext.Consumer>

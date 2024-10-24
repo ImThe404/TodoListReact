@@ -5,7 +5,8 @@ import { UsernameContext, TokenContext } from '../Contexte/Context';
 import { getTodoLists, deleteTodoList }  from '../components/API/todoListAPI';
 
 import Input from '../components/API/input';
-import TodoListDetails from '../components/ItemOut/TodoListStack'
+import TodoListStack from '../components/ItemOut/TodoListStack'
+import styles from '../styles';
 
 export default function TodoListScreen({ navigation }) {
     const [token] = useContext(TokenContext);
@@ -29,8 +30,8 @@ export default function TodoListScreen({ navigation }) {
     };
 
     return (
-        <View >
-            <TodoListDetails
+        <View style={styles.container}>
+            <TodoListStack style={styles.list}
                 data={todoLists}
                 delete={deleteTodoListS}
                 navigation={navigation}

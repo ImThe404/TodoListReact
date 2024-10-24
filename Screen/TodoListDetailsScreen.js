@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import TodoListUi from '../components/ItemIn/TodoListUi';
 import { getTodos } from "../components/API/todo"
 import { TokenContext } from '../Contexte/Context'
+import styles from '../styles';
 
 export default function TodoListScreen(props) {
 
@@ -20,7 +21,7 @@ export default function TodoListScreen(props) {
     }, [props.route.params.id, token]);
 
     return (
-        <View>
+        <View style={styles.container}>
             <TodoListUi
                 data={data}
                 listId={props.route.params.id}

@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import {View, Text, StyleSheet, Animated} from 'react-native';
+import styles from "../../styles";
 
 export default function ProgressBar({progressVal}) {
     // Init the anim using ref
@@ -44,24 +45,3 @@ export default function ProgressBar({progressVal}) {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    progressBarContainer: {
-      backgroundColor: 'gray',
-      borderRadius: 10,
-      height: 20,
-      overflow: 'hidden',
-    },
-    progressBar: {
-      backgroundColor: '#2196f3',
-      height: '100%',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    progressText: {
-      position: 'absolute',
-      align: 'center',
-      color: 'black',
-      fontSize: 12,
-    },
-})

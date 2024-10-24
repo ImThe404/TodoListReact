@@ -1,6 +1,7 @@
 import React from 'react'
-import { View, Text, Button } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 
+import styles from '../styles';
 import { TokenContext, UsernameContext } from '../Contexte/Context'
 
 export default function SignOutScreen ({ navigation, route }) {
@@ -9,12 +10,15 @@ export default function SignOutScreen ({ navigation, route }) {
       <UsernameContext.Consumer>
         {([username, setUsername]) => {
           return (
-            <View>
-              <Button
-                title="Sign Out" onPress={() => {
+            <View style={styles.container}>
+              <TouchableOpacity style={styles.button}
+                onPress={() => {
                       setUsername(null)
                       setToken(null)
-                }} />
+                }} 
+              >
+                <Text style={styles.buttonText}>Sign Out</Text>
+              </TouchableOpacity>
             </View>
           )
         }}

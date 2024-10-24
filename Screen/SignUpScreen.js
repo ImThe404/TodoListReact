@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text } from 'react-native';
 
+import styles from '../styles';
 import { TokenContext, UsernameContext } from '../Contexte/Context';
-
 import { signUp } from '../components/API/sign';
 
 
@@ -14,11 +14,10 @@ export default function SignUpScreen({ navigation }) {
                 <UsernameContext.Consumer>
                     {([username, setUsername]) => {
                         return (
-                            <View>
-                                <TextInput placeholder='Username' onChangeText={value => setUsername(value)}/>
-                                <TextInput placeholder='Password' secureTextEntry={true} onChangeText={value => password = value}/>
-                                <Button
-                                    title="Sign Up"
+                            <View style={styles.container} >
+                                <TextInput style={styles.input} placeholder='Username' onChangeText={value => setUsername(value)}/>
+                                <TextInput style={styles.input} placeholder='Password' secureTextEntry={true} onChangeText={value => password = value}/>
+                                <TouchableOpacity style={styles.button}
                                     onPress={() => {
                                         signUp(username, password)
                                             .then(token => {
@@ -30,7 +29,9 @@ export default function SignUpScreen({ navigation }) {
                                                 console.error(error)
                                             })
                                     }}
-                                />
+                                >
+                                    <Text style={styles.buttonText}>Sign Up</Text>
+                                </TouchableOpacity>
                             </View>
                         )
                     }}

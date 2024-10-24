@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { StyleSheet, View, TextInput, Button, Text, FlatList, Switch } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, FlatList, ScrollView  } from 'react-native';
 import { TokenContext } from '../../Contexte/Context'
 import ProgressBar from './progressBar';
 import { createTodo, updateTodo, deleteTodo} from '../API/todo'
 
 import TodoItem from './TodoItem';
+import styles from "../../styles";
 
 export default function TodoListUi(props){
     const [todos, setTodos] = useState(props.data)
@@ -71,25 +72,48 @@ export default function TodoListUi(props){
     }}
 
     return (
-        <View>
+        <ScrollView >
             <ProgressBar progressVal={((count/todos.length)*100).toFixed(0)}/>
+            <View style={styles.container}>
             <FlatList
                 style={{ paddingLeft: 10 }}
                 data={filterTodos()}
                 renderItem={({item}) => <TodoItem item={item} change={change} deleteTodo={delTodo}/>}/>
             <Text>Nombre d'action fini : {count}</Text>
-            <TextInput
+            <TextInput style={styles.input}
                 onChangeText={setTodoText}
                 placeholder='TYPE HERE'
                 onSubmitEditing={addNewTodo}
                 value={newTodoText}
             />
-            <Button title='Nouveau Todo' onPress={() => addNewTodo()} />
-            <Button title='Afficher Tout' onPress={() => setTodosFilter('')} />
-            <Button title='Afficher DONE' onPress={() => setTodosFilter('done')} />
-            <Button title='Afficher unDONE' onPress={() => setTodosFilter('undone')}/>
-            <Button title='Tout cocher' onPress={() => setDoneState(true)} />
-            <Button title='Tout Décocher' onPress={() => setDoneState(false)} />
-        </View>
+            
+            <TouchableOpacity style={styles.button} onPress={() => addNewTodo()}
+            >
+                <Text style={styles.buttonText}>Nouveau Todo</Text>
+            </TouchableOpacity>
+            <View style={styles.choixMultiple}>
+                <TouchableOpacity style={styles.choix} onPress={() => setTodosFilter('')}
+                >
+                    <Text style={styles.buttonText}>Afficher tout les Todos</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.choix} onPress={() => setTodosFilter('done')}
+                >
+                    <Text style={styles.buttonText}>Afficher les Todos fini</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.choix} onPress={() => setTodosFilter('undone')}
+                >
+                    <Text style={styles.buttonText}>Afficher les Todos non fini</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.choix} onPress={() => setDoneState(true)}
+                >
+                    <Text style={styles.buttonText}>Tout cocher</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.choix} onPress={() => setDoneState(false)}
+                >
+                    <Text style={styles.buttonText}>Tout Décocher</Text>
+                </TouchableOpacity>
+            </View>
+            </View>
+        </ScrollView >
     )
 }
