@@ -1,22 +1,27 @@
-// styles.js
 import { StyleSheet } from 'react-native';
+
+const AntiFlashWithe = '#F0EDEE'
+const MidNightGreen = '#07393C'
+const CaribbeanCurrent = '#2C666E'
+const Snow = '#FFFCFD'
 
 export default StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: AntiFlashWithe,
     justifyContent: 'center',
     alignItems: 'center',
   },
   input: {
     width: '80%',
     height: 40,
-    borderColor: 'gray',
+    borderColor: MidNightGreen,
     borderWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 10,
   },
   button: {
-    backgroundColor: '#110e76',
+    backgroundColor: MidNightGreen,
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
@@ -25,18 +30,12 @@ export default StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontSize: 16,
-  },
-  TodoLists: {
-    flexDirection: 'row',
-    alignItems: 'left',
-  },
-  list: {
-    marginTop: 20,
-    alignItems: 'left',
+    textAlign: 'center',
+    fontSize: 14,
+    fontStyle: 'bold',
   },
   choix: {
-    backgroundColor: '#0378b2',
+    backgroundColor: CaribbeanCurrent,
     width: '30%',
     aspectRatio: 1,
     marginBottom: 10, 
@@ -52,7 +51,7 @@ export default StyleSheet.create({
     padding: 10, 
   },
   progressBarContainer: {
-    backgroundColor: 'gray',
+    backgroundColor: MidNightGreen,
     borderRadius: 10,
     height: 20,
     overflow: 'hidden',
@@ -60,7 +59,7 @@ export default StyleSheet.create({
     margin: '10%',
   },
   progressBar: {
-    backgroundColor: '#2196f3',
+    backgroundColor: CaribbeanCurrent,
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
@@ -68,8 +67,30 @@ export default StyleSheet.create({
   progressText: {
     position: 'absolute',
     align: 'center',
-    color: 'black',
+    color: 'white',
     fontSize: 12,
+  },
+  border: {
+    borderColor: MidNightGreen,
+    backgroundColor: Snow,
+    borderWidth: 2,
+    width: '100%',
+    height: '50%',
+  },
+  deleteIcon: {
+    alignItems: 'right',
+    borderLeftColor: CaribbeanCurrent,
+    borderLeftWidth: 1,
+  },
+  TodoLists: {
+    borderBottonColor: CaribbeanCurrent,
+    borderBottomWidth: 1,
+    height: 25,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
   },
 
 });

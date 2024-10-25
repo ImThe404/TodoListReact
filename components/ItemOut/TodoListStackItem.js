@@ -6,7 +6,7 @@ import styles from '../../styles';
 
 export default function TodoListItem (props) {
     return (
-        <TouchableOpacity 
+        <TouchableOpacity
             onPress={() => props.navigation.navigate('Details', {id: props.item.id})}>
             <Item
                 id={props.item.id}

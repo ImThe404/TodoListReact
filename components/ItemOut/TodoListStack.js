@@ -1,12 +1,13 @@
 import React from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 
 import TodoListStackItem from './TodoListStackItem';
 import styles from '../../styles';
 
 export default function TodoListStack(props) {
     return (
-        <FlatList contentContainerStyle={styles.list}
+        <View style={styles.border}>
+        <FlatList //contentContainerStyle={styles.list}
             data={props.data}
             renderItem={
                 ({ item }) => <TodoListStackItem 
@@ -16,5 +17,6 @@ export default function TodoListStack(props) {
                                 />
             }
         />
+        </View>
     )
 }

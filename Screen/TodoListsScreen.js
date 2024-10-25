@@ -31,12 +31,12 @@ export default function TodoListScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <TodoListStack style={styles.list}
+            <TodoListStack style={styles.border}
                 data={todoLists}
                 delete={deleteTodoListS}
                 navigation={navigation}
             />
-            <Input
+            <Input style={styles.border}
                 refresh={refreshTodoLists}
             />
         </View>

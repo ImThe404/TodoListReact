@@ -21,6 +21,8 @@ export default function TodoListUi(props){
 
     // Server interacting functions
     const addNewTodo = async () => {
+        console.log("hello")
+        console.log(newTodoText)
         if (newTodoText === '') return
         try {
             const res = await createTodo(newTodoText, props.listId, token);
