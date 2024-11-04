@@ -92,5 +92,8 @@ export default StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
+  ErrorText: {
+    color: 'red',
+  }
 
 });

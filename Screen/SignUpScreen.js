@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text } from 'react-native';
 
 import styles from '../styles';
@@ -7,6 +7,9 @@ import { signUp } from '../components/API/sign';
 
 
 export default function SignUpScreen({ navigation }) {
+
+    const [errorMsg, seterrorMsg] = useState('');
+
     let password = ''
     return (
         <TokenContext.Consumer>
@@ -15,19 +18,26 @@ export default function SignUpScreen({ navigation }) {
                     {([username, setUsername]) => {
                         return (
                             <View style={styles.container} >
+                                <Text style={styles.ErrorText}>{errorMsg}</Text>
                                 <TextInput style={styles.input} placeholder='Username' onChangeText={value => setUsername(value)}/>
                                 <TextInput style={styles.input} placeholder='Password' secureTextEntry={true} onChangeText={value => password = value}/>
                                 <TouchableOpacity style={styles.button}
                                     onPress={() => {
-                                        signUp(username, password)
-                                            .then(token => {
-                                                setToken(token)
-                                                setUsername(username)
-                                                navigation.navigate("SignUp")
-                                            })
-                                            .catch(error => {
-                                                console.error(error)
-                                            })
+                                        if ( username == '' ) {
+                                            seterrorMsg("Le nom d'utilisateur ne doit pas être vide")
+                                        } else if ( password == '' ) {
+                                            seterrorMsg("Le mot de passe ne doit pas être vide")
+                                        } else {
+                                            signUp(username, password)
+                                                .then(token => {
+                                                    setToken(token)
+                                                    setUsername(username)
+                                                    navigation.navigate("SignUp")
+                                                })
+                                                .catch(error => {
+                                                    seterrorMsg(error.message)
+                                                })
+                                        }
                                     }}
                                 >
                                     <Text style={styles.buttonText}>Sign Up</Text>
