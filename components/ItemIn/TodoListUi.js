@@ -13,6 +13,7 @@ export default function TodoListUi(props){
     const [newTodoText, setTodoText] = useState("")
     const [todosFilter, setTodosFilter] = useState('');
     const [token] = useContext(TokenContext)
+    const [errorMsg, seterrorMsg] = useState('');
 
     useEffect(() => {
         setTodos(props.data)
@@ -21,10 +22,11 @@ export default function TodoListUi(props){
 
     // Server interacting functions
     const addNewTodo = async () => {
-        console.log("hello")
-        console.log(newTodoText)
-        if (newTodoText === '') return
-        try {
+        if (newTodoText === '') {
+            seterrorMsg("Le nom du Todo ne doit pas être vide")
+            return
+        } try {
+            seterrorMsg('')
             const res = await createTodo(newTodoText, props.listId, token);
             if (res.id) {
                 setTodos([...todos, res]);
@@ -82,6 +84,7 @@ export default function TodoListUi(props){
                 data={filterTodos()}
                 renderItem={({item}) => <TodoItem item={item} change={change} deleteTodo={delTodo}/>}/>
             <Text>Nombre d'action fini : {count}</Text>
+            <Text style={styles.ErrorText}>{errorMsg}</Text>
             <TextInput style={styles.input}
                 onChangeText={setTodoText}
                 placeholder='TYPE HERE'

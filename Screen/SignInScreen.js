@@ -9,7 +9,7 @@ export default function SignInScreen () {
 
     const [errorMsg, seterrorMsg] = useState('');
 
-    let password = ''
+    const [password, setpassword] = useState('');
     
     return (
       <TokenContext.Consumer>
@@ -19,7 +19,7 @@ export default function SignInScreen () {
               return <View style={styles.container}>
                 <Text style={styles.ErrorText}>{errorMsg}</Text>
                 <TextInput style={styles.input} placeholder='Username' onChangeText={value => setUsername(value)}/>
-                <TextInput style={styles.input} placeholder='Password' secureTextEntry={true} onChangeText={value => password = value}/>
+                <TextInput style={styles.input} placeholder='Password' secureTextEntry={true} onChangeText={setpassword} value={password}/>
                 <TouchableOpacity style={styles.button}
                   title="Sign In"
                   onPress={() => {
